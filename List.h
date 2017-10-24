@@ -1,7 +1,6 @@
 #pragma once
 
 #include <iostream>
-#include "node.h"
 #include "Iterator.h"
 #include <cstdlib>
 
@@ -21,5 +20,5 @@ class List {
             void erase(Iterator);
 
     private:
-        node *head, *tail;
+        Link *head, *tail;
 };
