@@ -2,14 +2,14 @@
 #include <iostream>
 
 List::~List(){
-	if(!empty()){
-		Link * ptr = head;
-		while (ptr != tail){
-			ptr = ptr->next;
-			delete ptr->first;
-		}
-	}
-	delete tail;
+    if(!empty()){
+            Link * ptr = head;
+            while (ptr != tail){
+                    ptr = ptr->next;
+                    delete ptr->first;
+            }
+    }
+    delete tail;
 }
 
 bool List::empty() const {
@@ -46,23 +46,23 @@ void List::push_front(int x){
 }
 
 int List::size(){
-	Iterator it;
-	int x = 1;
-	it.position = head;
-	while(it.position!=tail){
-		++x;
-		++it;
-	}
-	return x;     
+    Iterator it;
+    int x = 1;
+    it.position = head;
+    while(it.position!=tail){
+            ++x;
+            ++it;
+    }
+    return x;     
 }
 
-void List::pop_back(){
-	tail = tail->first;
-	tail->next = NULL;
+void List::popback(){
+    tail = tail->first;
+    tail->next = NULL;
 }
-void List::pop_front(){
-	head = head->next;
-	head->first = NULL;
+void List::popfront(){
+    head = head->next;
+    head->first = NULL;
 }
 
 Iterator List::begin(){
@@ -80,37 +80,37 @@ Iterator List::end(){
 }
 
 void List::insert(Iterator it, int x){
-	if(it.position == NULL){
-		push_back(x);
-		return;
-	}
-	Link* after = it.position;
-	Link* before = after->first;
-	Link* new_link = new Link(x); 
-	new_link->first = before;
-	new_link->next = after;
-	after->first = new_link;
-	if(before == NULL)
-		head = new_link;
-	else
-		before->next = new_link;
+    if(it.position == NULL){
+            push_back(x);
+            return;
+    }
+    Link* after = it.position;
+    Link* before = after->first;
+    Link* new_link = new Link(x); 
+    new_link->first = before;
+    new_link->next = after;
+    after->first = new_link;
+    if(before == NULL)
+            head = new_link;
+    else
+            before->next = new_link;
 }
 
 Iterator List::erase(Iterator it){
-	Link* erase = it.position;
-	Link* before = erase->first;
-	Link*  after = erase->next;
-	if(erase == head)
-		head = after;
-	else
-		before->next = after;
-	if(erase == tail)
-		tail = before;
-	else
-		after->first = before;
-	delete erase;
-	Iterator x;
-	x.position = after;
-	x.container = this;
-	return x;
+    Link* erase = it.position;
+    Link* before = erase->first;
+    Link*  after = erase->next;
+    if(erase == head)
+            head = after;
+    else
+            before->next = after;
+    if(erase == tail)
+            tail = before;
+    else
+            after->first = before;
+    delete erase;
+    Iterator x;
+    x.position = after;
+    x.container = this;
+    return x;
 }

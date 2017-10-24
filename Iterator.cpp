@@ -1,5 +1,6 @@
 #include "Iterator.h"
 #include <iostream>
+#include <cassert>
 
 Iterator::Iterator(){
     position=NULL;
@@ -14,8 +15,4 @@ void Iterator::operator++(){
 int & Iterator::operator*(){
 	assert(position != NULL);
 	return position->data;
-}
-
-bool Iterator::operator==(const Iterator & rhs){
-	return position == rhs.position;
 }

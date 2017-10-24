@@ -7,17 +7,17 @@
 class List {
     public:
             List() {head=NULL;tail=NULL;};
-            ~List() {}
+            ~List();
             bool empty() const;
             void push_back(int x);
             void push_front(int x);
             int size();
-            void popback(int x);
-            void popfront(int x);
+            void popback();
+            void popfront();
             Iterator begin();
             Iterator end();
-            void insert(int x);
-            void erase(Iterator);
+            void insert(Iterator it,int x);
+            Iterator erase(Iterator it);
 
     private:
         Link *head, *tail;

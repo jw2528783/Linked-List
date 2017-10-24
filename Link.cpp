@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Link.h"
 
 Link::Link(int x){

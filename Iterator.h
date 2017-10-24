@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include "Link.h"
 
 class List;
