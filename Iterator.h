@@ -1,17 +1,13 @@
 #pragma once
-
 #include "Link.h"
-
-class List;
 
 class Iterator {
     public:
-        Iterator();
-        void operator++();
         int & operator*();
-        friend class List;
+        void operator++();
+        bool operator==(const Iterator & rhs);
     private:
-        Link *position;
-        List *container;
-
+        Iterator(Link* link) : link(link) {}
+        Link* link;
+        friend class List;
 };

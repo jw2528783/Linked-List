@@ -1,12 +1,13 @@
 #pragma once
 
-class Link {
-    public:
-            Link(int x);
+class Link{
     private:
-        friend class Iterator;
-        friend class List;
+        Link(int n){
+            data = n;
+            next = nullptr;
+        };
+        Link *next;
         int data;
-        Link *next, *first;
-        
+        friend class List;
+        friend class Iterator;
 };

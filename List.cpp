@@ -1,116 +1,111 @@
 #include "List.h"
-#include <iostream>
+#include <cassert>
 
 List::~List(){
-    if(!empty()){
-            Link * ptr = head;
-            while (ptr != tail){
-                    ptr = ptr->next;
-                    delete ptr->first;
-            }
+    Link* temp;
+    while(head!=nullptr){
+        temp=head->next;
+        delete head;
+        head=temp;
     }
-    delete tail;
 }
 
-bool List::empty() const {
-    if(head==NULL && tail==NULL)return true;
+bool List::empty() const{
+    if(head==nullptr) return true;
     else return false;
 }
 
-void List::push_back(int x){
-    Link* newnode=new Link(x);
-    if(tail==NULL){
-        head=newnode;
-        tail=newnode;
+void List::pushback(int data){
+    Link *temp = new Link(data);
+    if(head==nullptr){
+        head = temp;
+        tail = temp;
     }
-    //attach to end of list
     else{
-        newnode->first=tail;
-        tail->next=newnode;
-        tail=newnode;
+        tail->next = temp;
+        tail = temp;
     }
 }
 
-void List::push_front(int x){
-    Link* newnode=new Link(x);
-    if(tail==NULL){
-        head=newnode;
-        tail=newnode;
+void List::pushfront(int data){
+    Link* temp=new Link(data);
+    if(head==nullptr){
+        head = temp;
+        tail = temp;
     }
-    //attach to front of list
     else{
-        newnode->next=head;
-        head->first=newnode;
-        head=newnode;
+        temp->next = head;
+        head = temp;
     }
 }
 
 int List::size(){
-    Iterator it;
-    int x = 1;
-    it.position = head;
-    while(it.position!=tail){
-            ++x;
-            ++it;
+    int num=0;
+    Link* temp=head;
+    while(temp!=nullptr){
+        num++;
+        temp = temp->next;
     }
-    return x;     
+    delete temp;
+    return num;
 }
 
 void List::popback(){
-    tail = tail->first;
-    tail->next = NULL;
+    assert(head!=nullptr);
+    if(head->next==nullptr){
+        delete head;
+        head = nullptr;
+        return;
+    }
+    Link* temp = head;
+    while (temp->next != tail) temp = temp->next;
+    tail=temp;
+    tail->next=nullptr;
+    delete temp->next;
 }
+
 void List::popfront(){
-    head = head->next;
-    head->first = NULL;
+    Link* temp=head;
+    head=head->next;
+    delete temp;
 }
 
 Iterator List::begin(){
-    Iterator it;
-    it.position=head;
-    it.container=this;
-    return it;
+    return Iterator(head);
 }
 
 Iterator List::end(){
-    Iterator it;
-    it.position = NULL;
-    it.container = this;
+    return Iterator(nullptr);
+}
+
+Iterator List::insert(Iterator it, int data){
+    Link* temp1 = it.link;
+    if(temp1==nullptr){
+        pushback(data);
+        return Iterator(tail);
+    }
+    Link* temp2=new Link(data);
+    Link* temp3=temp1->next;
+    temp1->next=temp2;
+    temp2->next=temp3;
+    int Data=temp1->data;
+    temp1->data=temp2->data;
+    temp2->data=Data;
     return it;
 }
 
-void List::insert(Iterator it, int x){
-    if(it.position == NULL){
-            push_back(x);
-            return;
-    }
-    Link* after = it.position;
-    Link* before = after->first;
-    Link* new_link = new Link(x); 
-    new_link->first = before;
-    new_link->next = after;
-    after->first = new_link;
-    if(before == NULL)
-            head = new_link;
-    else
-            before->next = new_link;
-}
-
 Iterator List::erase(Iterator it){
-    Link* erase = it.position;
-    Link* before = erase->first;
-    Link*  after = erase->next;
-    if(erase == head)
-            head = after;
-    else
-            before->next = after;
-    if(erase == tail)
-            tail = before;
-    else
-            after->first = before;
-    delete erase;
-    Iterator x;
-    x.position = after;
-    x.container = this;
-    return x;
+    Link* temp1=it.link;
+    if(temp1->next==nullptr){
+        popfront();
+        return Iterator(head);
+    }
+    Link* temp2=temp1->next;
+    int Data=temp1->data;
+    temp1->data=temp2->data;
+    temp2->data=Data;
+    Link* temp3=temp1->next->next;
+    temp1->next=temp3;
+    delete temp2;
+    return it;
 }

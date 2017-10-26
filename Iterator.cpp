@@ -1,18 +1,13 @@
 #include "Iterator.h"
-#include <iostream>
-#include <cassert>
 
-Iterator::Iterator(){
-    position=NULL;
-    container=NULL;
+int& Iterator::operator*(){
+    return link->data;
 }
 
 void Iterator::operator++(){
-	assert(position!=NULL);
-	position=position->next;
+    link=link->next;
 }
 
-int & Iterator::operator*(){
-	assert(position != NULL);
-	return position->data;
+bool Iterator::operator==(const Iterator & x){
+    return link==x.link;
 }
